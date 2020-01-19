@@ -2,16 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ec3a277-55cf-419b-be63-35044454bdec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/simpleDB/com/company/Main.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/simpleDB/com/company/MainTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/company/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/company/MainTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/org_junit_jupiter_junit_jupiter_5_4_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/simpleDB/com/company/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/simpleDB/com/company/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/simpleDB/com/company/MainTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/simpleDB/com/company/MainTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/simpleDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/simpleDB.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="class_work" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -44,15 +48,16 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RecentsManager">
@@ -105,6 +110,7 @@
       <workItem from="1579289535289" duration="467000" />
       <workItem from="1579290061323" duration="1804000" />
       <workItem from="1579386410170" duration="1968000" />
+      <workItem from="1579461403006" duration="1277000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1579461022606</created>
@@ -124,29 +130,54 @@
     <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="191" width="802" height="677" key="#Project_Structure" timestamp="1579461168619">
-      <screen x="0" y="0" width="1920" height="1056" />
+    <state x="555" y="195" width="802" height="677" key="#Project_Structure" timestamp="1579461480436">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state x="555" y="195" key="#Project_Structure/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579461480436" />
     <state x="555" y="191" width="802" height="677" key="#Project_Structure/0.0.1920.1056@0.0.1920.1056" timestamp="1579461168619" />
-    <state x="525" y="126" width="862" height="807" key="CommitChangelistDialog2" timestamp="1579461280203">
-      <screen x="0" y="0" width="1920" height="1056" />
+    <state x="414" y="196" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579461536332">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state x="414" y="196" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579461536332" />
+    <state x="525" y="129" width="862" height="807" key="CommitChangelistDialog2" timestamp="1579462889263">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="525" y="129" key="CommitChangelistDialog2/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462889263" />
     <state x="525" y="126" width="862" height="807" key="CommitChangelistDialog2/0.0.1920.1056@0.0.1920.1056" timestamp="1579461280203" />
-    <state x="449" y="163" key="SettingsEditor" timestamp="1579289987259">
-      <screen x="0" y="0" width="1920" height="1056" />
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom" timestamp="1579462896080">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state width="1877" height="295" key="GridCell.Tab.0.bottom/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896080" />
+    <state width="1877" height="295" key="GridCell.Tab.0.center" timestamp="1579462896080">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="295" key="GridCell.Tab.0.center/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896080" />
+    <state width="1877" height="295" key="GridCell.Tab.0.left" timestamp="1579462896079">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="295" key="GridCell.Tab.0.left/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896079" />
+    <state width="1877" height="295" key="GridCell.Tab.0.right" timestamp="1579462896080">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="295" key="GridCell.Tab.0.right/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896080" />
+    <state x="449" y="167" key="SettingsEditor" timestamp="1579462331674">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="449" y="167" key="SettingsEditor/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462331674" />
     <state x="449" y="163" key="SettingsEditor/0.0.1920.1056@0.0.1920.1056" timestamp="1579289987259" />
     <state x="555" y="265" width="802" height="528" key="Vcs.Push.Dialog.v2" timestamp="1579461194329">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="555" y="265" width="802" height="528" key="Vcs.Push.Dialog.v2/0.0.1920.1056@0.0.1920.1056" timestamp="1579461194329" />
-    <state x="616" y="355" key="com.intellij.ide.util.TipDialog" timestamp="1579386446343">
-      <screen x="0" y="0" width="1920" height="1056" />
+    <state x="616" y="363" key="com.intellij.ide.util.TipDialog" timestamp="1579462726795">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state x="616" y="363" key="com.intellij.ide.util.TipDialog/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462726795" />
     <state x="616" y="355" key="com.intellij.ide.util.TipDialog/0.0.1920.1056@0.0.1920.1056" timestamp="1579386446343" />
-    <state x="632" y="424" width="648" height="208" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1579290763158">
-      <screen x="0" y="0" width="1920" height="1056" />
+    <state x="632" y="434" width="648" height="208" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1579462321739">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state x="632" y="434" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462321739" />
     <state x="632" y="424" width="648" height="208" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1056@0.0.1920.1056" timestamp="1579290763158" />
     <state x="728" y="449" width="456" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579461255343">
       <screen x="0" y="0" width="1920" height="1056" />
@@ -156,5 +187,9 @@
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="734" y="233" width="444" height="590" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1056@0.0.1920.1056" timestamp="1579290470767" />
+    <state x="623" y="235" key="search.everywhere.popup" timestamp="1579461617148">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="623" y="235" key="search.everywhere.popup/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579461617148" />
   </component>
 </project>
