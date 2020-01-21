@@ -1,13 +1,14 @@
 package com.company;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class simbleDB {
   enum Operation {
     CREATE_DATABASE {
       @Override
-      public void apply() {
-        System.out.println("success");
+      public void apply() throws IOException {
+        CreateDB.createDB();
       }
     },
     OPEN_DATABASE {
@@ -58,10 +59,10 @@ public class simbleDB {
 
       }
     };
-    public abstract void apply();
+    public abstract void apply() throws IOException;
   }
 
-  static void simpleMenu() {
+  static void simpleMenu() throws IOException {
     System.out.println("Pick enter one of the following operations (case sensitive):");
     for (Operation o : Operation.values()) {
       System.out.printf("%s%n", o);
@@ -76,7 +77,7 @@ public class simbleDB {
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     //Call menu option
     simpleMenu();
   }

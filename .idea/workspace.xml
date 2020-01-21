@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ec3a277-55cf-419b-be63-35044454bdec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/CreateDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/CreateDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/Fortune_500_HQ.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Fortune_500_HQ.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/simbleDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/simbleDB.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,10 +53,10 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
@@ -64,6 +64,9 @@
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager" selected="Application.simbleDB">
@@ -150,7 +153,7 @@
       <workItem from="1579461403006" duration="1277000" />
       <workItem from="1579463260541" duration="1419000" />
       <workItem from="1579568642200" duration="628000" />
-      <workItem from="1579625335223" duration="6179000" />
+      <workItem from="1579625335223" duration="11009000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1579461022606</created>
@@ -159,7 +162,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579461022606</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="test">
+      <created>1579633956555</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1579633956555</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,11 +180,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="555" y="195" width="802" height="677" key="#Project_Structure" timestamp="1579461480436">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="555" y="191" width="802" height="677" key="#Project_Structure" timestamp="1579638228443">
+      <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="555" y="195" key="#Project_Structure/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579461480436" />
-    <state x="555" y="191" width="802" height="677" key="#Project_Structure/0.0.1920.1056@0.0.1920.1056" timestamp="1579461168619" />
+    <state x="555" y="191" width="802" height="677" key="#Project_Structure/0.0.1920.1056@0.0.1920.1056" timestamp="1579638228443" />
     <state x="414" y="196" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579461536332">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -187,35 +197,35 @@
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="643" y="257" width="626" height="544" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1056@0.0.1920.1056" timestamp="1579568651993" />
-    <state x="525" y="126" width="862" height="807" key="CommitChangelistDialog2" timestamp="1579633914903">
+    <state x="525" y="126" width="862" height="807" key="CommitChangelistDialog2" timestamp="1579633956210">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="525" y="129" key="CommitChangelistDialog2/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462889263" />
-    <state x="525" y="126" width="862" height="807" key="CommitChangelistDialog2/0.0.1920.1056@0.0.1920.1056" timestamp="1579633914903" />
+    <state x="525" y="126" width="862" height="807" key="CommitChangelistDialog2/0.0.1920.1056@0.0.1920.1056" timestamp="1579633956210" />
     <state x="183" y="92" width="1538" height="874" key="DiffContextDialog" timestamp="1579569094532">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="183" y="92" width="1538" height="874" key="DiffContextDialog/0.0.1920.1056@0.0.1920.1056" timestamp="1579569094532" />
-    <state width="846" height="278" key="GridCell.Tab.0.bottom" timestamp="1579633915179">
+    <state width="959" height="278" key="GridCell.Tab.0.bottom" timestamp="1579638912250">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state width="1877" height="295" key="GridCell.Tab.0.bottom/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896080" />
-    <state width="846" height="278" key="GridCell.Tab.0.bottom/0.0.1920.1056@0.0.1920.1056" timestamp="1579633915179" />
-    <state width="846" height="278" key="GridCell.Tab.0.center" timestamp="1579633915177">
+    <state width="959" height="278" key="GridCell.Tab.0.bottom/0.0.1920.1056@0.0.1920.1056" timestamp="1579638912250" />
+    <state width="959" height="278" key="GridCell.Tab.0.center" timestamp="1579638912248">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state width="1877" height="295" key="GridCell.Tab.0.center/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896080" />
-    <state width="846" height="278" key="GridCell.Tab.0.center/0.0.1920.1056@0.0.1920.1056" timestamp="1579633915177" />
-    <state width="846" height="278" key="GridCell.Tab.0.left" timestamp="1579633915177">
+    <state width="959" height="278" key="GridCell.Tab.0.center/0.0.1920.1056@0.0.1920.1056" timestamp="1579638912248" />
+    <state width="959" height="278" key="GridCell.Tab.0.left" timestamp="1579638912247">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state width="1877" height="295" key="GridCell.Tab.0.left/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896079" />
-    <state width="846" height="278" key="GridCell.Tab.0.left/0.0.1920.1056@0.0.1920.1056" timestamp="1579633915177" />
-    <state width="846" height="278" key="GridCell.Tab.0.right" timestamp="1579633915178">
+    <state width="959" height="278" key="GridCell.Tab.0.left/0.0.1920.1056@0.0.1920.1056" timestamp="1579638912247" />
+    <state width="959" height="278" key="GridCell.Tab.0.right" timestamp="1579638912249">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state width="1877" height="295" key="GridCell.Tab.0.right/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462896080" />
-    <state width="846" height="278" key="GridCell.Tab.0.right/0.0.1920.1056@0.0.1920.1056" timestamp="1579633915178" />
+    <state width="959" height="278" key="GridCell.Tab.0.right/0.0.1920.1056@0.0.1920.1056" timestamp="1579638912249" />
     <state x="665" y="247" width="582" height="564" key="MultipleFileMergeDialog" timestamp="1579569177816">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
@@ -224,15 +234,15 @@
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
     <state x="725" y="242" width="454" height="574" key="RollbackChangesDialog/0.0.1920.1056@0.0.1920.1056" timestamp="1579568826730" />
-    <state x="449" y="167" key="SettingsEditor" timestamp="1579462331674">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="449" y="167" key="SettingsEditor/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462331674" />
-    <state x="449" y="163" key="SettingsEditor/0.0.1920.1056@0.0.1920.1056" timestamp="1579289987259" />
-    <state x="555" y="265" width="802" height="528" key="Vcs.Push.Dialog.v2" timestamp="1579630596756">
+    <state x="449" y="163" width="1026" height="845" key="SettingsEditor" timestamp="1579638413079">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>
-    <state x="555" y="265" width="802" height="528" key="Vcs.Push.Dialog.v2/0.0.1920.1056@0.0.1920.1056" timestamp="1579630596756" />
+    <state x="449" y="167" key="SettingsEditor/-1600.180.1600.900/0.0.1920.1080@0.0.1920.1080" timestamp="1579462331674" />
+    <state x="449" y="163" width="1026" height="845" key="SettingsEditor/0.0.1920.1056@0.0.1920.1056" timestamp="1579638413079" />
+    <state x="555" y="265" width="802" height="528" key="Vcs.Push.Dialog.v2" timestamp="1579633974643">
+      <screen x="0" y="0" width="1920" height="1056" />
+    </state>
+    <state x="555" y="265" width="802" height="528" key="Vcs.Push.Dialog.v2/0.0.1920.1056@0.0.1920.1056" timestamp="1579633974643" />
     <state x="616" y="355" key="com.intellij.ide.util.TipDialog" timestamp="1579625337737">
       <screen x="0" y="0" width="1920" height="1056" />
     </state>

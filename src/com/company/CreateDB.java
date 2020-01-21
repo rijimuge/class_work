@@ -1,4 +1,5 @@
 package com.company;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
@@ -28,12 +29,22 @@ public class CreateDB {
    * calls getFileName() and creates the data, config and overflow file from the specified file
    */
   static void createDB () throws IOException {
+    String path = System.getProperty("user.dir");
     String fileName = getFileName();
-    RandomAccessFile dataIn = new RandomAccessFile(fileName, "r");
-
+    try {
+      //RandomAccessFile dataIn = new RandomAccessFile("Fortune_500_HQ.csv", "r");
+      RandomAccessFile dataIn = new RandomAccessFile(fileName, "r");
+      String[] fieldNames = dataIn.readLine().split(",");
+      createDataFile(fieldNames, 0);
+    } catch (FileNotFoundException e) {
+      System.out.println("Invalid file name, returning to main menu: \n");
+      simbleDB.simpleMenu();
+    }
   }
 
-  private static void createDataFile (String fieldNames, int size) {
-
+  private static void createDataFile (String[] fieldNames, int size) {
+    for (String s : fieldNames) {
+      System.out.println(s);
+    }
   }
 }
