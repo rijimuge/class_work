@@ -1,2 +1,13 @@
 # Default ignored files
 /workspace.xml
+/../
+/.
+/codeStyles/
+/libraries/
+/.gitignore
+/description.html
+/encodings.xml
+/misc.xml
+/modules.xml
+/project-template.xml
+/vcs.xml
