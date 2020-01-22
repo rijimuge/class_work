@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Test of Main System output")
-class simbleDBTest {
+class simpleDBTest {
   private final boolean bool = true;
   @Test
   void trueTest() {

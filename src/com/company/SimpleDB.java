@@ -3,7 +3,7 @@ package com.company;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class simbleDB {
+public class SimpleDB {
   public static final int RECORD_SIZE = 77;
   enum Operation {
     CREATE_DATABASE {
@@ -68,10 +68,10 @@ public class simbleDB {
     for (Operation o : Operation.values()) {
       System.out.printf("%s%n", o);
     }
-    Scanner scan = new Scanner(System.in);
+    Scanner operationInput = new Scanner(System.in);
     try {
-      Operation toApply = Operation.valueOf(scan.next());
-      toApply.apply();
+      Operation operationToApply = Operation.valueOf(operationInput.next());
+      operationToApply.apply();
     } catch (IllegalArgumentException e) {
       System.out.println("Invalid database operation\n\n");
       simpleMenu();

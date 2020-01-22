@@ -42,7 +42,7 @@ public class CreateDB {
       createConfigFile(fieldNames, numberOfRecords, fileNamePrefix);
     } catch (FileNotFoundException e) {
       System.out.println("Invalid file name, returning to main menu: \n");
-      simbleDB.simpleMenu();
+      SimpleDB.simpleMenu();
     }
   }
 
@@ -58,7 +58,7 @@ public class CreateDB {
       dataFile.writeBytes(String.format("%-" + 10 + "s", record[2]));
       dataFile.writeBytes(String.format("%-" + 2 + "s", record[3]));
       dataFile.writeBytes(String.format("%-" + 5 + "s", record[4]));
-      dataFile.writeBytes(String.format("%-" + 8 + "s", record[5]));
+      dataFile.writeBytes(String.format("%-" + 7 + "s", record[5]));
       nextLine = dataIn.readLine();
     }
     return size;
