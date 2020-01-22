@@ -29,22 +29,46 @@ public class CreateDB {
    * calls getFileName() and creates the data, config and overflow file from the specified file
    */
   static void createDB () throws IOException {
-    String path = System.getProperty("user.dir");
     String fileName = getFileName();
+    StringBuilder prefixSB = new StringBuilder();
+    for (int i = 0; i < fileName.length() - 4; i++) {
+      prefixSB.append(fileName.charAt(i));
+    }
+    String fileNamePrefix = prefixSB.toString();
     try {
-      //RandomAccessFile dataIn = new RandomAccessFile("Fortune_500_HQ.csv", "r");
       RandomAccessFile dataIn = new RandomAccessFile(fileName, "r");
       String[] fieldNames = dataIn.readLine().split(",");
-      createDataFile(fieldNames, 0);
+      int numberOfRecords = createDataFile(dataIn, fileNamePrefix);
+      createConfigFile(fieldNames, numberOfRecords, fileNamePrefix);
     } catch (FileNotFoundException e) {
       System.out.println("Invalid file name, returning to main menu: \n");
       simbleDB.simpleMenu();
     }
   }
 
-  private static void createDataFile (String[] fieldNames, int size) {
+  private static int createDataFile(RandomAccessFile dataIn, String filePrefix) throws IOException {
+    String nextLine = dataIn.readLine();
+    RandomAccessFile dataFile = new RandomAccessFile(filePrefix + ".data", "rw");
+    int size = 0;
+    while (nextLine != null) {
+      size++;
+      String[] record = nextLine.split(",");
+      dataFile.writeBytes(String.format("%-" + 7 + "s", record[0]));
+      dataFile.writeBytes(String.format("%-" + 45 + "s", record[1]));
+      dataFile.writeBytes(String.format("%-" + 10 + "s", record[2]));
+      dataFile.writeBytes(String.format("%-" + 2 + "s", record[3]));
+      dataFile.writeBytes(String.format("%-" + 5 + "s", record[4]));
+      dataFile.writeBytes(String.format("%-" + 8 + "s", record[5]));
+      nextLine = dataIn.readLine();
+    }
+    return size;
+  }
+
+  private static void createConfigFile (String[] fieldNames, int size, String filePrefix) {
     for (String s : fieldNames) {
       System.out.println(s);
     }
+    System.out.println(size);
+    System.out.println(filePrefix);
   }
 }

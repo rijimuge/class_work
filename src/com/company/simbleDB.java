@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class simbleDB {
+  public static final int RECORD_SIZE = 77;
   enum Operation {
     CREATE_DATABASE {
       @Override
