@@ -16,18 +16,9 @@ import java.util.Scanner;
 public class CreateDB {
 
   /**
-   * Prompts the user for a the name of a .csv file to be converted to a database
-   * @return Returns the filename specified by the user
-   */
-  static String getFileName() {
-    System.out.println("Please enter the name of a CSV file to convert to the new DataBase");
-    Scanner scan = new Scanner(System.in);
-    return scan.next();
-  }
-
-  /**
    * calls getFileName, createDataFile, createConfigFile, and createOverflowFile
    * to create the data, config and overflow file from the specified .csv file
+   * @throws IOException to handle RandomAccessFile
    */
   static void createDB () throws IOException {
     String fileName = getFileName();
@@ -46,11 +37,6 @@ public class CreateDB {
       System.out.println("Invalid file name, returning to main menu: \n");
       SimpleDB.simpleMenu();
     }
-  }
-
-  private static void createOverflowFile(String fileNamePrefix) throws IOException {
-    RandomAccessFile dataOut = new RandomAccessFile(fileNamePrefix + ".overflow", "rw");
-    dataOut.close();
   }
 
   /**
@@ -81,11 +67,53 @@ public class CreateDB {
     return size;
   }
 
-  private static void createConfigFile (String[] fieldNames, int size, String filePrefix) {
+  /**
+   * config file contains number of records, describes names and sizes of fields. The first field is the primary key.
+   * 10 bytes - number of records, followed by 6 * 12 Bytes in the following form: 10 bytes for field name, 2 bytes for
+   * field size(in bytes)
+   * @param fieldNames This is an array of Strings, that represent the names of the fields in the database
+   *                   they are in the order they appear in, in the original .csv file and the database
+   * @param numberOfRecords the number of records in the datafile, transcribed in the first 10 bytes of the file
+   * @param fileNamePrefix the filename prefix of the database files, will be used to derive config filename
+   */
+  private static void createConfigFile (String[] fieldNames, int numberOfRecords, String fileNamePrefix) throws IOException {
+    RandomAccessFile dataOut = new RandomAccessFile(fileNamePrefix + ".config", "rw");
+    dataOut.writeBytes(String.format("%-" + 10 + "d", numberOfRecords));
+    dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[0]));
+    dataOut.writeBytes(String.format("%-" + 2 + "d", 7));
+    dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[1]));
+    dataOut.writeBytes(String.format("%-" + 2 + "d", 45));
+    dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[2]));
+    dataOut.writeBytes(String.format("%-" + 2 + "d", 10));
+    dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[3]));
+    dataOut.writeBytes(String.format("%-" + 2 + "d", 2));
+    dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[4]));
+    dataOut.writeBytes(String.format("%-" + 2 + "d", 5));
+    dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[5]));
+    dataOut.writeBytes(String.format("%-" + 2 + "d", 7));
+    dataOut.close();
     for (String s : fieldNames) {
       System.out.println(s);
     }
-    System.out.println(size);
-    System.out.println(filePrefix);
+  }
+
+  /**
+   * Creates a placeholder for insertions into database record
+   * @param fileNamePrefix this is the filename prefix that will be used to generate the overflow filename
+   * @throws IOException handles RandomAccessFile exceptions
+   */
+  private static void createOverflowFile(String fileNamePrefix) throws IOException {
+    RandomAccessFile dataOut = new RandomAccessFile(fileNamePrefix + ".overflow", "rw");
+    dataOut.close();
+  }
+
+  /**
+   * Prompts the user for a the name of a .csv file to be converted to a database
+   * @return Returns the filename specified by the user
+   */
+  static String getFileName() {
+    System.out.println("Please enter the name of a CSV file to convert to the new DataBase");
+    Scanner scan = new Scanner(System.in);
+    return scan.next();
   }
 }

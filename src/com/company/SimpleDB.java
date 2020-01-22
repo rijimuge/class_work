@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class SimpleDB {
   public static final int RECORD_SIZE = 77;
+  public static boolean databaseAlreadyOpen = false;
   enum Operation {
     CREATE_DATABASE {
       @Override
@@ -14,8 +15,8 @@ public class SimpleDB {
     },
     OPEN_DATABASE {
       @Override
-      public void apply() {
-
+      public void apply() throws IOException {
+        OpenDB.openDB();
       }
     },
     CLOSE_DATABASE {
