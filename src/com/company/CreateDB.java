@@ -26,7 +26,8 @@ public class CreateDB {
   }
 
   /**
-   * calls getFileName() and creates the data, config and overflow file from the specified file
+   * calls getFileName, createDataFile, createConfigFile, and createOverflowFile
+   * to create the data, config and overflow file from the specified .csv file
    */
   static void createDB () throws IOException {
     String fileName = getFileName();
@@ -40,27 +41,43 @@ public class CreateDB {
       String[] fieldNames = dataIn.readLine().split(",");
       int numberOfRecords = createDataFile(dataIn, fileNamePrefix);
       createConfigFile(fieldNames, numberOfRecords, fileNamePrefix);
+      createOverflowFile(fileNamePrefix);
     } catch (FileNotFoundException e) {
       System.out.println("Invalid file name, returning to main menu: \n");
       SimpleDB.simpleMenu();
     }
   }
 
+  private static void createOverflowFile(String fileNamePrefix) throws IOException {
+    RandomAccessFile dataOut = new RandomAccessFile(fileNamePrefix + ".overflow", "rw");
+    dataOut.close();
+  }
+
+  /**
+   * Writes the .csv record to a RandomAccessFile with name prefix + .data (suffix)
+   * record fields are of fixed length
+   * @param dataIn the .csv file being converted
+   * @param filePrefix name prefix for file created
+   * @return returns the number of data records created
+   * @throws IOException to handle RandomAccessFile exceptions
+   */
   private static int createDataFile(RandomAccessFile dataIn, String filePrefix) throws IOException {
     String nextLine = dataIn.readLine();
-    RandomAccessFile dataFile = new RandomAccessFile(filePrefix + ".data", "rw");
+    RandomAccessFile dataOut = new RandomAccessFile(filePrefix + ".data", "rw");
     int size = 0;
     while (nextLine != null) {
       size++;
       String[] record = nextLine.split(",");
-      dataFile.writeBytes(String.format("%-" + 7 + "s", record[0]));
-      dataFile.writeBytes(String.format("%-" + 45 + "s", record[1]));
-      dataFile.writeBytes(String.format("%-" + 10 + "s", record[2]));
-      dataFile.writeBytes(String.format("%-" + 2 + "s", record[3]));
-      dataFile.writeBytes(String.format("%-" + 5 + "s", record[4]));
-      dataFile.writeBytes(String.format("%-" + 7 + "s", record[5]));
+      dataOut.writeBytes(String.format("%-" + 7 + "s", record[0]));
+      dataOut.writeBytes(String.format("%-" + 45 + "s", record[1]));
+      dataOut.writeBytes(String.format("%-" + 10 + "s", record[2]));
+      dataOut.writeBytes(String.format("%-" + 2 + "s", record[3]));
+      dataOut.writeBytes(String.format("%-" + 5 + "s", record[4]));
+      dataOut.writeBytes(String.format("%-" + 7 + "s", record[5]));
       nextLine = dataIn.readLine();
     }
+    dataIn.close();
+    dataOut.close();
     return size;
   }
 
