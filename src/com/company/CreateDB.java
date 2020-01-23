@@ -33,6 +33,8 @@ public class CreateDB {
       int numberOfRecords = createDataFile(dataIn, fileNamePrefix);
       createConfigFile(fieldNames, numberOfRecords, fileNamePrefix);
       createOverflowFile(fileNamePrefix);
+      System.out.println(fileNamePrefix + " database has been created.");
+      SimpleDB.simpleMenu();
     } catch (FileNotFoundException e) {
       System.out.println("Invalid file name, returning to main menu: \n");
       SimpleDB.simpleMenu();
