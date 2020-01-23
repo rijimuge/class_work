@@ -23,6 +23,10 @@ public class OpenDB {
     INSTANCE.overflowFile = overflow;
   }
 
+  public static RandomAccessFile[] getInstanceFiles() {
+    return new RandomAccessFile[]{INSTANCE.dataFile, INSTANCE.configFile, INSTANCE.overflowFile};
+  }
+
   public static void closeDB() throws IOException {
     if (databaseAlreadyOpen) {
       System.out.println(INSTANCE.filePrefix + " database closed.\n");
@@ -57,7 +61,7 @@ public class OpenDB {
         System.out.println("One or more of the triplet of database files for the specified prefix is missing\nfrom the working directory is missing from the working directory\nreturning to Main Menu \n\n");
       }
     } else {
-      System.out.println("A database instance is already open. Please close the current database instance\nbefore trying to open another database instance\n\n Returning to Main Menu \n");
+      System.out.println(INSTANCE.filePrefix + " database instance is already open. Please close the current database instance\nbefore trying to open another database instance\n\n Returning to Main Menu \n");
       SimpleDB.simpleMenu();
     }
   }

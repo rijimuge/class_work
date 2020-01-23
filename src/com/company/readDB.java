@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class readDB {
-  static int RECORD_SIZE = 71;
+  static int RECORD_SIZE = 77;
   static int NUM_RECORDS = 4110;
   static String FILENAME = "Fortune_500_HQ.csv";
 
