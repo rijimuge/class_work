@@ -88,10 +88,6 @@ public class ReadDB {
       Middle = (Low + High) / 2;
       record = getRecord(Din, Middle + 1);
       MiddleId = Integer.parseInt(record.substring(0, 7).trim());
-
-
-      System.out.println(id);
-      System.out.println(MiddleId);
       int result = MiddleId.compareTo(intid);
       if (result == 0)   // ids match
         Found = true;

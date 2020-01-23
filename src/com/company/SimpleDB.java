@@ -40,6 +40,7 @@ public class SimpleDB {
       public void apply() throws IOException {
         if (OpenDB.getDataBaseOpenStatus()) {
           ReadDB.displayRecord();
+          SimpleDB.simpleMenu();
         } else {
           System.out.println("No database currently open, returning to main menu:\n\n");
           SimpleDB.simpleMenu();
@@ -48,8 +49,14 @@ public class SimpleDB {
     },
     UPDATE_RECORD {
       @Override
-      public void apply() {
-
+      public void apply() throws IOException {
+        if (OpenDB.getDataBaseOpenStatus()) {
+          WriteDB.updateRecord();
+          SimpleDB.simpleMenu();
+        } else {
+          System.out.println("No database currently open, returning to main menu:\n\n");
+          SimpleDB.simpleMenu();
+        }
       }
     },
     CREATE_RECORD {
