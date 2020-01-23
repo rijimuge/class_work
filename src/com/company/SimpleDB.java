@@ -39,7 +39,7 @@ public class SimpleDB {
       @Override
       public void apply() throws IOException {
         if (OpenDB.getDataBaseOpenStatus()) {
-          ReadDB.displayReccord();
+          ReadDB.displayRecord();
         } else {
           System.out.println("No database currently open, returning to main menu:\n\n");
           SimpleDB.simpleMenu();

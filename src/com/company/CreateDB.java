@@ -56,12 +56,12 @@ public class CreateDB {
     while (nextLine != null) {
       size++;
       String[] record = nextLine.split(",");
-      dataOut.writeBytes(String.format("%-" + 7 + "s", record[0]));
-      dataOut.writeBytes(String.format("%-" + 45 + "s", record[1]));
-      dataOut.writeBytes(String.format("%-" + 10 + "s", record[2]));
-      dataOut.writeBytes(String.format("%-" + 2 + "s", record[3]));
-      dataOut.writeBytes(String.format("%-" + 5 + "s", record[4]));
-      dataOut.writeBytes(String.format("%-" + 7 + "s", record[5]));
+      dataOut.writeBytes(String.format("%-" + 7 + "s", record[0]).substring(0,7));
+      dataOut.writeBytes(String.format("%-" + 45 + "s", record[1]).substring(0,45));
+      dataOut.writeBytes(String.format("%-" + 10 + "s", record[2]).substring(0,10));
+      dataOut.writeBytes(String.format("%-" + 2 + "s", record[3]).substring(0,2));
+      dataOut.writeBytes(String.format("%-" + 5 + "s", record[4]).substring(0,5));
+      dataOut.writeBytes(String.format("%-" + 7 + "s", record[5]).substring(0,7));
       nextLine = dataIn.readLine();
     }
     dataIn.close();
