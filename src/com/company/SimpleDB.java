@@ -15,19 +15,35 @@ public class SimpleDB {
     OPEN_DATABASE {
       @Override
       public void apply() throws IOException {
-        OpenDB.openDB();
+        if (OpenDB.getDataBaseOpenStatus()) {
+          System.out.println(OpenDB.INSTANCE.filePrefix + " database instance is already open. Please close the current database instance\nbefore trying to open another database instance\n\n Returning to Main Menu \n");
+          SimpleDB.simpleMenu();
+        } else {
+          OpenDB.openDB();
+        }
       }
     },
     CLOSE_DATABASE {
       @Override
       public void apply() throws IOException {
-        OpenDB.closeDB();
+        if (OpenDB.getDataBaseOpenStatus()) {
+          System.out.println("No database currently open, returning to main menu:\n\n");
+          SimpleDB.simpleMenu();
+        } else {
+          OpenDB.closeDB();
+        }
+
       }
     },
     DISPLAY_RECORD {
       @Override
-      public void apply() {
-
+      public void apply() throws IOException {
+        if (OpenDB.getDataBaseOpenStatus()) {
+          ReadDB.displayReccord();
+        } else {
+          System.out.println("No database currently open, returning to main menu:\n\n");
+          SimpleDB.simpleMenu();
+        }
       }
     },
     UPDATE_RECORD {

@@ -3,11 +3,30 @@ package com.company;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class readDB {
+public class ReadDB {
   static int RECORD_SIZE = 77;
-  static int NUM_RECORDS = 4110;
-  static String FILENAME = "Fortune_500_HQ.csv";
+  static int NUM_RECORDS;
+  static String[] fieldNames = new String[6];
 
+  public static void initializeRead() throws IOException {
+    String config = OpenDB.getConfigFile().readLine();
+    NUM_RECORDS = Integer.parseInt(config.substring(0, 10).trim());
+
+    fieldNames[0] = config.substring(10, 20).trim();
+    fieldNames[1] = config.substring(22, 32).trim();
+    fieldNames[2] = config.substring(34, 44).trim();
+    fieldNames[3] = config.substring(46, 56).trim();
+    fieldNames[4] = config.substring(58, 68).trim();
+    fieldNames[5] = config.substring(70, 80).trim();
+    for (String s : fieldNames) {
+      System.out.println(s);
+    }
+  }
+  public static void displayReccord() throws IOException {
+
+    initializeRead();
+  }
+  /**
   public static void main(String[] args) throws IOException {
     RandomAccessFile Din = new RandomAccessFile(FILENAME, "r");
     String record;
@@ -26,6 +45,7 @@ public class readDB {
 
     Din.close();
   }
+   */
 
   /*Get record number n-th (from 1 to 4360) */
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
@@ -66,4 +86,6 @@ public class readDB {
     else
       return "NOT_FOUND";
   }
+
+
 }
