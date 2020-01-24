@@ -66,7 +66,7 @@ public class ReadDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
   public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException {
     byte[] recordInBytes = new byte[RECORD_SIZE];
-    if ((recordNum >= 1) && (recordNum <= NUM_RECORDS)) {
+    if ((recordNum >= 0) && (recordNum <= NUM_RECORDS)) {
       Din.seek(0); // return to the top of the file
       Din.skipBytes(recordNum * RECORD_SIZE);
       Din.read(recordInBytes);
@@ -86,8 +86,13 @@ public class ReadDB {
 
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
-      record = getRecord(Din, Middle + 1);
+      record = getRecord(Din, Middle);
       MiddleId = Integer.parseInt(record.substring(0, 7).trim());
+      System.out.println(Low);
+      System.out.println(High);
+      System.out.println(MiddleId);
+      System.out.println(record);
+      System.out.println();
       int result = MiddleId.compareTo(intid);
       if (result == 0)   // ids match
         Found = true;

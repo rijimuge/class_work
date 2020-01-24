@@ -97,7 +97,7 @@ public class WriteDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
 
   public static void writeRecord(RandomAccessFile Din, int recordNum, String updatedRecord) throws IOException {
-    if ((recordNum >= 1) && (recordNum <= ReadDB.NUM_RECORDS)) {
+    if ((recordNum >= 0) && (recordNum <= ReadDB.NUM_RECORDS)) {
       Din.seek(0); // return to the top of the file
       Din.skipBytes(recordNum * ReadDB.RECORD_SIZE);
       Din.writeBytes(updatedRecord);

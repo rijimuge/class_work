@@ -97,7 +97,7 @@ public class SimpleDB {
 
   public static void main(String[] args) throws IOException {
     //Call menu option
-    while (toQuit = false) {
+    while (!toQuit) {
       simpleMenu();
     }
   }
