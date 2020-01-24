@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class SimpleDB {
   public static final int RECORD_SIZE = 77;
+  private static boolean toQuit = false;
   enum Operation {
     CREATE_DATABASE {
       @Override
@@ -17,7 +18,6 @@ public class SimpleDB {
       public void apply() throws IOException {
         if (OpenDB.getDataBaseOpenStatus()) {
           System.out.println(OpenDB.INSTANCE.filePrefix + " database instance is already open. Please close the current database instance\nbefore trying to open another database instance\n\n Returning to Main Menu \n");
-          SimpleDB.simpleMenu();
         } else {
           OpenDB.openDB();
         }
@@ -28,7 +28,6 @@ public class SimpleDB {
       public void apply() throws IOException {
         if (OpenDB.getDataBaseOpenStatus()) {
           System.out.println("No database currently open, returning to main menu:\n\n");
-          SimpleDB.simpleMenu();
         } else {
           OpenDB.closeDB();
         }
@@ -40,10 +39,8 @@ public class SimpleDB {
       public void apply() throws IOException {
         if (OpenDB.getDataBaseOpenStatus()) {
           ReadDB.displayRecord();
-          SimpleDB.simpleMenu();
         } else {
           System.out.println("No database currently open, returning to main menu:\n\n");
-          SimpleDB.simpleMenu();
         }
       }
     },
@@ -52,14 +49,12 @@ public class SimpleDB {
       public void apply() throws IOException {
         if (OpenDB.getDataBaseOpenStatus()) {
           WriteDB.updateRecord();
-          SimpleDB.simpleMenu();
         } else {
           System.out.println("No database currently open, returning to main menu:\n\n");
-          SimpleDB.simpleMenu();
         }
       }
     },
-    CREATE_RECORD {
+    CREATE_REPORT {
       @Override
       public void apply() {
 
@@ -97,12 +92,13 @@ public class SimpleDB {
       operationToApply.apply();
     } catch (IllegalArgumentException e) {
       System.out.println("Invalid database operation\n\n");
-      simpleMenu();
     }
   }
 
   public static void main(String[] args) throws IOException {
     //Call menu option
-    simpleMenu();
+    while (toQuit = false) {
+      simpleMenu();
+    }
   }
 }

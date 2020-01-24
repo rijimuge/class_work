@@ -5,7 +5,7 @@ import java.io.RandomAccessFile;
 import java.util.Scanner;
 
 public class ReadDB {
-  static int RECORD_SIZE = 76;
+  static final int RECORD_SIZE = 76;
   static int NUM_RECORDS;
   static String[] fieldNames = new String[6];
 
@@ -21,7 +21,7 @@ public class ReadDB {
     fieldNames[5] = config.substring(70, 82).trim();
   }
   public static void displayRecord() throws IOException {
-    initializeRead();
+    System.out.println("Please enter a rank (primary key) to search for:");
     String id = getID();
     String record = binarySearch(OpenDB.getDataFile(), id);
     String[] fields = new String[6];

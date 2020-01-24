@@ -49,7 +49,6 @@ public class OpenDB {
     INSTANCE.configFile = null;
     INSTANCE.overflowFile = null;
     INSTANCE.filePrefix = null;
-    SimpleDB.simpleMenu();
   }
 
   public static void openDB() throws IOException {
@@ -67,11 +66,10 @@ public class OpenDB {
       overflowFile = new RandomAccessFile(INSTANCE.filePrefix + ".overflow", "rw");
       databaseAlreadyOpen = true;
       setInstanceFiles(configFile, dataFile, overflowFile);
+      ReadDB.initializeRead();
       System.out.println(INSTANCE.filePrefix + " database is now open.\n");
-      SimpleDB.simpleMenu();
     } catch (FileNotFoundException e) {
       System.out.println("One or more of the triplet of database files for the specified prefix is missing\nfrom the working directory is missing from the working directory\nreturning to Main Menu \n\n");
-      SimpleDB.simpleMenu();
     }
   }
 
