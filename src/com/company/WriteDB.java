@@ -97,7 +97,7 @@ public class WriteDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
 
   public static void writeRecord(RandomAccessFile Din, int recordNum, String updatedRecord) throws IOException {
-    if ((recordNum >= 1) && (recordNum <= ReadDB.NUM_RECORDS)) {
+    if ((recordNum >= 0) && (recordNum <= ReadDB.NUM_RECORDS)) {
       Din.seek(0); // return to the top of the file
       Din.skipBytes(recordNum * ReadDB.RECORD_SIZE);
       Din.writeBytes(updatedRecord);
@@ -116,12 +116,12 @@ public class WriteDB {
 
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
-      record = ReadDB.getRecord(Din, Middle + 1);
+      record = ReadDB.getRecord(Din, Middle);
       MiddleId = Integer.parseInt(record.substring(0, 7).trim());
       int result = MiddleId.compareTo(intid);
       if (result == 0) {  // ids match
         Found = true;
-        writeRecord(Din, Middle + 1, updatedRecord);
+        writeRecord(Din, Middle, updatedRecord);
       }
       else if (result < 0) {
         Low = Middle + 1;

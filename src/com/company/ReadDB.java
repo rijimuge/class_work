@@ -41,6 +41,38 @@ public class ReadDB {
     System.out.println(toDisplay);
 
   }
+
+  public static void createReport() throws IOException {
+    int count = 0;
+    int offset = 0;
+    RandomAccessFile report = new RandomAccessFile(OpenDB.INSTANCE.filePrefix + ".report", "rw");
+    while (count < 10) {
+      String record = getRecord(OpenDB.getDataFile(), offset);
+      if (!record.substring(0,3).equals("DEL")){
+        count++;
+        offset++;
+        String[] fields = new String[6];
+        fields[0] = record.substring(0,7);
+        fields[1] = record.substring(7,52);
+        fields[2] = record.substring(52,62);
+        fields[3] = record.substring(62,64);
+        fields[4] = record.substring(64,69);
+        fields[5] = record.substring(69);
+        StringBuilder toDisplay = new StringBuilder();
+        for (int i = 0; i < 6; i ++) {
+          toDisplay.append(fieldNames[i].substring(0, 10).trim());
+          toDisplay.append(": ");
+          toDisplay.append(fields[i].trim());
+          toDisplay.append(" ");
+        }
+        toDisplay.append("\n");
+        report.writeBytes(toDisplay.toString());
+      } else {
+        offset++;
+      }
+    }
+    report.close();
+  }
   /**
   public static void main(String[] args) throws IOException {
     RandomAccessFile Din = new RandomAccessFile(FILENAME, "r");
@@ -66,7 +98,7 @@ public class ReadDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
   public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException {
     byte[] recordInBytes = new byte[RECORD_SIZE];
-    if ((recordNum >= 1) && (recordNum <= NUM_RECORDS)) {
+    if ((recordNum >= 0) && (recordNum <= NUM_RECORDS)) {
       Din.seek(0); // return to the top of the file
       Din.skipBytes(recordNum * RECORD_SIZE);
       Din.read(recordInBytes);
@@ -86,7 +118,7 @@ public class ReadDB {
 
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
-      record = getRecord(Din, Middle + 1);
+      record = getRecord(Din, Middle);
       MiddleId = Integer.parseInt(record.substring(0, 7).trim());
       int result = MiddleId.compareTo(intid);
       if (result == 0)   // ids match
