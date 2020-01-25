@@ -56,8 +56,12 @@ public class SimpleDB {
     },
     CREATE_REPORT {
       @Override
-      public void apply() {
-
+      public void apply() throws IOException {
+        if (OpenDB.getDataBaseOpenStatus()) {
+          ReadDB.createReport();
+        } else {
+          System.out.println("No database currently open, returning to main menu:\n\n");
+        }
       }
     },
     ADD_RECORD {

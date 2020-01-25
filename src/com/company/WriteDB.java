@@ -116,12 +116,12 @@ public class WriteDB {
 
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
-      record = ReadDB.getRecord(Din, Middle + 1);
+      record = ReadDB.getRecord(Din, Middle);
       MiddleId = Integer.parseInt(record.substring(0, 7).trim());
       int result = MiddleId.compareTo(intid);
       if (result == 0) {  // ids match
         Found = true;
-        writeRecord(Din, Middle + 1, updatedRecord);
+        writeRecord(Din, Middle, updatedRecord);
       }
       else if (result < 0) {
         Low = Middle + 1;
