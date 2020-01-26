@@ -24,6 +24,10 @@ public class ReadDB {
     System.out.println("Please enter a rank (primary key) to search for:");
     String id = getID();
     String record = binarySearch(OpenDB.getDataFile(), id);
+    if (record.equals("NOT_FOUND")) {
+      System.out.println("A record with the specified primary key was not found");
+      return;
+    }
     String[] fields = new String[6];
     fields[0] = record.substring(0,7);
     fields[1] = record.substring(7,52);
@@ -48,28 +52,24 @@ public class ReadDB {
     RandomAccessFile report = new RandomAccessFile(OpenDB.INSTANCE.filePrefix + ".report", "rw");
     while (count < 10) {
       String record = getRecord(OpenDB.getDataFile(), offset);
-      if (!record.substring(0,3).equals("DEL")){
-        count++;
-        offset++;
-        String[] fields = new String[6];
-        fields[0] = record.substring(0,7);
-        fields[1] = record.substring(7,52);
-        fields[2] = record.substring(52,62);
-        fields[3] = record.substring(62,64);
-        fields[4] = record.substring(64,69);
-        fields[5] = record.substring(69);
-        StringBuilder toDisplay = new StringBuilder();
-        for (int i = 0; i < 6; i ++) {
-          toDisplay.append(fieldNames[i].substring(0, 10).trim());
-          toDisplay.append(": ");
-          toDisplay.append(fields[i].trim());
-          toDisplay.append(" ");
-        }
-        toDisplay.append("\n");
-        report.writeBytes(toDisplay.toString());
-      } else {
-        offset++;
+      count++;
+      offset++;
+      String[] fields = new String[6];
+      fields[0] = record.substring(0,7);
+      fields[1] = record.substring(7,52);
+      fields[2] = record.substring(52,62);
+      fields[3] = record.substring(62,64);
+      fields[4] = record.substring(64,69);
+      fields[5] = record.substring(69);
+      StringBuilder toDisplay = new StringBuilder();
+      for (int i = 0; i < 6; i ++) {
+        toDisplay.append(fieldNames[i].substring(0, 10).trim());
+        toDisplay.append(": ");
+        toDisplay.append(fields[i].trim());
+        toDisplay.append(" ");
       }
+      toDisplay.append("\n");
+      report.writeBytes(toDisplay.toString());
     }
     report.close();
   }
@@ -103,7 +103,12 @@ public class ReadDB {
       Din.skipBytes(recordNum * RECORD_SIZE);
       Din.read(recordInBytes);
     }
-    return new String(recordInBytes);
+    String toReturn = new String(recordInBytes);
+    while (toReturn.substring(0,3).equals("DEL")) {
+      Din.read(recordInBytes);
+      toReturn = new String(recordInBytes);
+    }
+    return toReturn;
   }
 
   /*Binary Search record id */
@@ -120,11 +125,6 @@ public class ReadDB {
       Middle = (Low + High) / 2;
       record = getRecord(Din, Middle);
       MiddleId = Integer.parseInt(record.substring(0, 7).trim());
-      System.out.println(Low);
-      System.out.println(High);
-      System.out.println(MiddleId);
-      System.out.println(record);
-      System.out.println();
       int result = MiddleId.compareTo(intid);
       if (result == 0)   // ids match
         Found = true;

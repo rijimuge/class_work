@@ -9,6 +9,10 @@ public class WriteDB {
    System.out.println("Please enter a rank (primary key) to search for:");
    String id = ReadDB.getID();
    String record = ReadDB.binarySearch(OpenDB.getDataFile(), id);
+   if (record.equals("NOT_FOUND")) {
+     System.out.println("A record with the specified primary key was not found");
+     return;
+   }
    String[] fields = new String[6];
    fields[0] = record.substring(0, 7);
    fields[1] = record.substring(7, 52);
@@ -97,9 +101,23 @@ public class WriteDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
 
   public static void writeRecord(RandomAccessFile Din, int recordNum, String updatedRecord) throws IOException {
+    int seekNum = recordNum;
+    byte[] recordInBytes = new byte[ReadDB.RECORD_SIZE];
     if ((recordNum >= 0) && (recordNum <= ReadDB.NUM_RECORDS)) {
       Din.seek(0); // return to the top of the file
       Din.skipBytes(recordNum * ReadDB.RECORD_SIZE);
+      Din.read(recordInBytes);
+    }
+    String toReturn = new String(recordInBytes);
+    while (toReturn.substring(0,3).equals("DEL")) {
+      seekNum++;
+      Din.read(recordInBytes);
+      toReturn = new String(recordInBytes);
+    }
+
+    if ((recordNum >= 0) && (recordNum <= ReadDB.NUM_RECORDS)) {
+      Din.seek(0); // return to the top of the file
+      Din.skipBytes(seekNum * ReadDB.RECORD_SIZE);
       Din.writeBytes(updatedRecord);
     }
   }
@@ -130,5 +148,21 @@ public class WriteDB {
         High = Middle - 1;
       }
     }
+    if (!Found) {
+      System.out.println("A record with the specified primary key was not found");
+    }
   }
+
+  public static void deleteRecord() throws IOException {
+    System.out.println("Please enter a rank (primary key) to delete:");
+    String id = ReadDB.getID();
+    binarySearchToWrite(OpenDB.getDataFile(), id, String.format("%-" + 76 + "s", "DEL"));
+  }
+
+  public static void addRecord() throws IOException {
+    //TODO: check length of overflow
+    //write to overflow if readDB.INSTANCE.overflowCount < 3
+    // otherwise, merge overflow w/ .data file
+  }
+
 }

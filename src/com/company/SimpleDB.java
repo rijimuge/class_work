@@ -72,14 +72,18 @@ public class SimpleDB {
     },
     DELETE_RECORD {
       @Override
-      public void apply() {
-
+      public void apply() throws IOException {
+        if (OpenDB.getDataBaseOpenStatus()) {
+          WriteDB.deleteRecord();
+        } else {
+          System.out.println("No database currently open, returning to main menu:\n\n");
+        }
       }
     },
     QUIT {
       @Override
       public void apply() {
-
+        toQuit = true;
       }
     };
     public abstract void apply() throws IOException;

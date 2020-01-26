@@ -13,6 +13,8 @@ public class OpenDB {
   RandomAccessFile dataFile;
   RandomAccessFile overflowFile;
   String filePrefix;
+  int overflowCount;
+
 
   private OpenDB() {
   }
@@ -67,6 +69,7 @@ public class OpenDB {
       databaseAlreadyOpen = true;
       setInstanceFiles(configFile, dataFile, overflowFile);
       ReadDB.initializeRead();
+      INSTANCE.overflowCount = (int) (overflowFile.length() / 76);
       System.out.println(INSTANCE.filePrefix + " database is now open.\n");
     } catch (FileNotFoundException e) {
       System.out.println("One or more of the triplet of database files for the specified prefix is missing\nfrom the working directory is missing from the working directory\nreturning to Main Menu \n\n");
