@@ -1,7 +1,9 @@
 package com.company;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Random;
 import java.util.Scanner;
 
 public class WriteDB {
@@ -140,6 +142,7 @@ public class WriteDB {
       if (result == 0) {  // ids match
         Found = true;
         writeRecord(Din, Middle, updatedRecord);
+        return;
       }
       else if (result < 0) {
         Low = Middle + 1;
@@ -148,8 +151,21 @@ public class WriteDB {
         High = Middle - 1;
       }
     }
-    if (!Found) {
-      System.out.println("A record with the specified primary key was not found");
+    byte[] checkOverflow = new byte[ReadDB.RECORD_SIZE];
+    RandomAccessFile overflow = OpenDB.getOverflowFile();
+    int overflowID;
+    if (overflow.length() > 1) {
+      for (long i = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
+        overflow.seek(i * 76);
+        overflow.read(checkOverflow);
+        overflowID = Integer.parseInt(new String(checkOverflow).substring(0, 7).trim());
+        if (overflowID == intid) {
+          writeRecord(overflow, (int) i, updatedRecord);
+        }
+      }
+      if (!Found) {
+        System.out.println("A record with the specified primary key was not found");
+      }
     }
   }
 
@@ -157,12 +173,111 @@ public class WriteDB {
     System.out.println("Please enter a rank (primary key) to delete:");
     String id = ReadDB.getID();
     binarySearchToWrite(OpenDB.getDataFile(), id, String.format("%-" + 76 + "s", "DEL"));
+    ReadDB.NUM_RECORDS--;
   }
 
   public static void addRecord() throws IOException {
+    System.out.println("Please enter a value for the following fields:");
+    Scanner fieldInput = new Scanner(System.in);
+    StringBuilder newRecord = new StringBuilder();
+    String pieceOfRecord;
+    int fieldSize;
+    for (int i = 0; i < 6; i ++) {
+      System.out.println(ReadDB.fieldNames[i].substring(0,10).trim()+ ":");
+      pieceOfRecord = fieldInput.nextLine();
+      fieldSize = Integer.parseInt(ReadDB.fieldNames[i].substring(10));
+      newRecord.append(String.format("%-" + fieldSize + "s", pieceOfRecord).substring(0, fieldSize));
+    }
+    RandomAccessFile overflow = OpenDB.getOverflowFile();
+    overflow.seek(OpenDB.getOverflowFile().length());
+    overflow.writeBytes(newRecord.toString());
+    OpenDB.INSTANCE.overflowCount++;
+
+    if (OpenDB.INSTANCE.overflowCount > 4) {
+      WriteDB.mergeOverflow();
+    }
     //TODO: check length of overflow
     //write to overflow if readDB.INSTANCE.overflowCount < 3
     // otherwise, merge overflow w/ .data file
   }
 
+  private static void mergeOverflow() throws IOException {
+    String nextOverflow = getSmallestFromOverflow();
+    String nextFromData = getNextFromData(true);
+    File newData = new File("merge.tmp");
+    RandomAccessFile mergeFile = new RandomAccessFile("merge.tmp", "rw");
+    int count = 0;
+    while (count < ReadDB.NUM_RECORDS + 5) {
+      if (Integer.parseInt(nextOverflow.substring(0, 7).trim()) < Integer.parseInt(nextFromData.substring(0, 7).trim())) {
+        mergeFile.writeBytes(nextOverflow);
+        nextOverflow = getSmallestFromOverflow();
+      } else {
+        mergeFile.writeBytes(nextFromData);
+        nextFromData = getNextFromData(false);
+      }
+      count++;
+    }
+    ReadDB.NUM_RECORDS+=5;
+    RandomAccessFile updateConfig = OpenDB.getConfigFile();
+    updateConfig.seek(0);
+    updateConfig.writeBytes(String.format("%-" + 10 + "d", ReadDB.NUM_RECORDS));
+    RandomAccessFile overflowToClose = OpenDB.getOverflowFile();
+    RandomAccessFile dataToClose = OpenDB.getDataFile();
+    overflowToClose.close();
+    dataToClose.close();
+    File overflowToDelete = new File(OpenDB.INSTANCE.filePrefix + ".overflow");
+    File dataToDelete = new File(OpenDB.INSTANCE.filePrefix + ".data");
+    overflowToDelete.delete();
+    dataToDelete.delete();
+    mergeFile.close();
+    newData.renameTo(new File(OpenDB.INSTANCE.filePrefix + ".data"));
+    File newOverflow = new File(OpenDB.INSTANCE.filePrefix + ".overflow");
+    newOverflow.createNewFile();
+    RandomAccessFile dataFile = new RandomAccessFile(OpenDB. INSTANCE.filePrefix + ".data", "rw");
+    RandomAccessFile overflowFile = new RandomAccessFile(OpenDB.INSTANCE.filePrefix + ".overflow", "rw");
+    OpenDB.setInstanceFiles(updateConfig, dataFile, overflowFile);
+  }
+
+  private static String getNextFromData(boolean started) throws IOException {
+    byte[] recordRead = new byte[ReadDB.RECORD_SIZE];
+    if (OpenDB.getDataFile().getFilePointer() == OpenDB.getDataFile().length()) {
+      return "999999999";
+    }
+    if (started) {
+      OpenDB.getDataFile().seek(0);
+      OpenDB.getDataFile().read(recordRead);
+      return new String(recordRead);
+    } else {
+      OpenDB.getDataFile().read(recordRead);
+      return new String(recordRead);
+    }
+  }
+
+  private static String getSmallestFromOverflow() throws IOException {
+    if (OpenDB.INSTANCE.overflowCount == 0) {
+      return "999999999";
+    }
+    int smallestIndex = 0;
+    while (ReadDB.getRecord(OpenDB.getOverflowFile(), smallestIndex).substring(0,3).equals("DEL")) {
+      smallestIndex++;
+    }
+    int smallestKey = Integer.parseInt(ReadDB.getRecord(OpenDB.getOverflowFile(), smallestIndex).substring(0,7).trim());
+    for (int i = smallestIndex + 1; i < OpenDB.getOverflowFile().length() / 76; i++) {
+      if (ReadDB.getRecord(OpenDB.getOverflowFile(), i).substring(0,3).equals("DEL")) {
+        i++;
+        continue;
+      }
+      if (i >= OpenDB.getOverflowFile().length() / 76) {
+        break;
+      }
+      if (Integer.parseInt(ReadDB.getRecord(OpenDB.getOverflowFile(), i).substring(0,7).trim()) < smallestKey) {
+        smallestIndex = i;
+        smallestKey = Integer.parseInt(ReadDB.getRecord(OpenDB.getOverflowFile(), i).substring(0,7).trim());
+      }
+    }
+    String toReturn = ReadDB.getRecord(OpenDB.getOverflowFile(), smallestIndex);
+    writeRecord(OpenDB.getOverflowFile(), smallestIndex, String.format("%-" + 76 + "s", "DEL"));
+    OpenDB.INSTANCE.overflowCount--;
+    return toReturn;
+  }
 }

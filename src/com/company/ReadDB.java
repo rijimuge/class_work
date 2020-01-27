@@ -98,13 +98,11 @@ public class ReadDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
   public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException {
     byte[] recordInBytes = new byte[RECORD_SIZE];
-    if ((recordNum >= 0) && (recordNum <= NUM_RECORDS)) {
-      Din.seek(0); // return to the top of the file
-      Din.skipBytes(recordNum * RECORD_SIZE);
-      Din.read(recordInBytes);
-    }
+    Din.seek(0); // return to the top of the file
+    Din.skipBytes(recordNum * RECORD_SIZE);
+    Din.read(recordInBytes);
     String toReturn = new String(recordInBytes);
-    while (toReturn.substring(0,3).equals("DEL")) {
+    while (toReturn.substring(0,3).equals("DEL") && Din.getFilePointer() < Din.length()) {
       Din.read(recordInBytes);
       toReturn = new String(recordInBytes);
     }
@@ -133,10 +131,32 @@ public class ReadDB {
       else
         High = Middle - 1;
     }
-    if (Found)
+    if (Found) {
       return record;
-    else
+    }
+    else {
+      byte[] checkOverflow = new byte[ReadDB.RECORD_SIZE];
+      RandomAccessFile overflow = OpenDB.getOverflowFile();
+      int overflowID;
+      if (overflow.length() > 1) {
+        for (long i = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
+          System.out.println("checking overflow");
+          overflow.seek(i * 76);
+          System.out.println("Seeking");
+          overflow.read(checkOverflow);
+          System.out.println("Reading");
+          System.out.println(checkOverflow.toString());
+          overflowID = Integer.parseInt(new String(checkOverflow).substring(0, 7).trim());
+          System.out.println(overflowID);
+          System.out.println(intid);
+          if (overflowID == intid) {
+            System.out.println("They match");
+            return new String(checkOverflow);
+          }
+        }
+      }
       return "NOT_FOUND";
+    }
   }
 
   public static String getID() {

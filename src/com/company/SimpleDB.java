@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class SimpleDB {
-  public static final int RECORD_SIZE = 77;
+  public static final int RECORD_SIZE = 76;
   private static boolean toQuit = false;
   enum Operation {
     CREATE_DATABASE {
@@ -66,8 +66,12 @@ public class SimpleDB {
     },
     ADD_RECORD {
       @Override
-      public void apply() {
-
+      public void apply() throws IOException {
+        if (OpenDB.getDataBaseOpenStatus()) {
+          WriteDB.addRecord();
+        } else {
+          System.out.println("No database currently open, returning to main menu:\n\n");
+        }
       }
     },
     DELETE_RECORD {

@@ -35,7 +35,7 @@ public class OpenDB {
     return databaseAlreadyOpen;
   }
 
-  private static void setInstanceFiles(RandomAccessFile config, RandomAccessFile data, RandomAccessFile overflow) {
+  public static void setInstanceFiles(RandomAccessFile config, RandomAccessFile data, RandomAccessFile overflow) {
     INSTANCE.dataFile = data;
     INSTANCE.configFile = config;
     INSTANCE.overflowFile = overflow;
@@ -69,6 +69,20 @@ public class OpenDB {
       databaseAlreadyOpen = true;
       setInstanceFiles(configFile, dataFile, overflowFile);
       ReadDB.initializeRead();
+      byte[] checkOverflow = new byte[ReadDB.RECORD_SIZE];
+      RandomAccessFile overflow = OpenDB.getOverflowFile();
+      String overflowID;
+      INSTANCE.overflowCount = 0;
+      for (long i  = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
+        overflow.seek(i * 76);
+        overflow.read(checkOverflow);
+        overflowID = checkOverflow.toString().substring(0, 3).trim();
+        if (overflowID.equals("DEL")) {
+          continue;
+        } else {
+          INSTANCE.overflowCount++;
+        }
+      }
       INSTANCE.overflowCount = (int) (overflowFile.length() / 76);
       System.out.println(INSTANCE.filePrefix + " database is now open.\n");
     } catch (FileNotFoundException e) {
