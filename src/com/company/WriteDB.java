@@ -160,6 +160,7 @@ public class WriteDB {
         overflow.read(checkOverflow);
         overflowID = Integer.parseInt(new String(checkOverflow).substring(0, 7).trim());
         if (overflowID == intid) {
+          Found = true;
           writeRecord(overflow, (int) i, updatedRecord);
         }
       }
