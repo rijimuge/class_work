@@ -129,16 +129,15 @@ public class WriteDB {
     int Low = 0;
     int High = ReadDB.NUM_RECORDS - 1;
     int Middle;
-    Integer MiddleId;
-    Integer intid = Integer.parseInt(id);
+    String MiddleId;
     boolean Found = false;
     String record;
 
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
       record = ReadDB.getRecord(Din, Middle);
-      MiddleId = Integer.parseInt(record.substring(0, 7).trim());
-      int result = MiddleId.compareTo(intid);
+      MiddleId = record.substring(0, 7).trim();
+      int result = MiddleId.compareTo(id);
       if (result == 0) {  // ids match
         Found = true;
         writeRecord(Din, Middle, updatedRecord);
@@ -153,13 +152,13 @@ public class WriteDB {
     }
     byte[] checkOverflow = new byte[ReadDB.RECORD_SIZE];
     RandomAccessFile overflow = OpenDB.getOverflowFile();
-    int overflowID;
+    String overflowID;
     if (overflow.length() > 1) {
       for (long i = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
         overflow.seek(i * 76);
         overflow.read(checkOverflow);
-        overflowID = Integer.parseInt(new String(checkOverflow).substring(0, 7).trim());
-        if (overflowID == intid) {
+        overflowID = (new String(checkOverflow).substring(0, 7).trim());
+        if (overflowID.equals(id)) {
           Found = true;
           writeRecord(overflow, (int) i, updatedRecord);
         }
@@ -189,17 +188,13 @@ public class WriteDB {
       fieldSize = Integer.parseInt(ReadDB.fieldNames[i].substring(10));
       newRecord.append(String.format("%-" + fieldSize + "s", pieceOfRecord).substring(0, fieldSize));
     }
-    RandomAccessFile overflow = OpenDB.getOverflowFile();
-    overflow.seek(OpenDB.getOverflowFile().length());
-    overflow.writeBytes(newRecord.toString());
+    OpenDB.getOverflowFile().seek(OpenDB.getOverflowFile().length());
+    OpenDB.getOverflowFile().writeBytes(newRecord.toString());
     OpenDB.INSTANCE.overflowCount++;
 
     if (OpenDB.INSTANCE.overflowCount > 4) {
       WriteDB.mergeOverflow();
     }
-    //TODO: check length of overflow
-    //write to overflow if readDB.INSTANCE.overflowCount < 3
-    // otherwise, merge overflow w/ .data file
   }
 
   private static void mergeOverflow() throws IOException {

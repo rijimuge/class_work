@@ -137,7 +137,7 @@ public class ReadDB {
     else {
       byte[] checkOverflow = new byte[ReadDB.RECORD_SIZE];
       RandomAccessFile overflow = OpenDB.getOverflowFile();
-      int overflowID;
+      String overflowID;
       if (overflow.length() > 1) {
         for (long i = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
           System.out.println("checking overflow");
@@ -146,10 +146,10 @@ public class ReadDB {
           overflow.read(checkOverflow);
           System.out.println("Reading");
           System.out.println(checkOverflow.toString());
-          overflowID = Integer.parseInt(new String(checkOverflow).substring(0, 7).trim());
+          overflowID = new String(checkOverflow).substring(7, 52).trim();
           System.out.println(overflowID);
-          System.out.println(intid);
-          if (overflowID == intid) {
+          System.out.println(id);
+          if (overflowID == id) {
             System.out.println("They match");
             return new String(checkOverflow);
           }
