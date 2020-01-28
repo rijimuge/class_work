@@ -78,7 +78,8 @@ public class CreateDB {
    */
   private static void createConfigFile (String[] fieldNames, int numberOfRecords, String fileNamePrefix) throws IOException {
     RandomAccessFile dataOut = new RandomAccessFile(fileNamePrefix + ".config", "rw");
-    dataOut.writeBytes(String.format("%-" + 10 + "d", numberOfRecords));
+    dataOut.writeBytes(String.format("%-" + 9 + "d", numberOfRecords));
+    dataOut.writeBytes("0");
     dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[0]));
     dataOut.writeBytes(String.format("%-" + 2 + "d", 7));
     dataOut.writeBytes(String.format("%-" + 10 + "s", fieldNames[1]));

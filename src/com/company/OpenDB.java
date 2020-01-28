@@ -42,6 +42,9 @@ public class OpenDB {
   }
 
   public static void closeDB() throws IOException {
+    INSTANCE.configFile.seek(0);
+    INSTANCE.configFile.writeBytes(String.format("%-" + 9 + "d", ReadDB.NUM_RECORDS));
+    INSTANCE.configFile.writeBytes(String.valueOf(INSTANCE.overflowCount));
     System.out.println(INSTANCE.filePrefix + " database closed.\n");
     databaseAlreadyOpen = false;
     INSTANCE.dataFile.close();
@@ -69,21 +72,7 @@ public class OpenDB {
       databaseAlreadyOpen = true;
       setInstanceFiles(configFile, dataFile, overflowFile);
       ReadDB.initializeRead();
-      byte[] checkOverflow = new byte[ReadDB.RECORD_SIZE];
-      RandomAccessFile overflow = OpenDB.getOverflowFile();
-      String overflowID;
-      INSTANCE.overflowCount = 0;
-      for (long i  = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
-        overflow.seek(i * 76);
-        overflow.read(checkOverflow);
-        overflowID = checkOverflow.toString().substring(0, 3).trim();
-        if (overflowID.equals("DEL")) {
-          continue;
-        } else {
-          INSTANCE.overflowCount++;
-        }
-      }
-      INSTANCE.overflowCount = (int) (overflowFile.length() / 76);
+      System.out.println(INSTANCE.overflowCount);
       System.out.println(INSTANCE.filePrefix + " database is now open.\n");
     } catch (FileNotFoundException e) {
       System.out.println("One or more of the triplet of database files for the specified prefix is missing\nfrom the working directory is missing from the working directory\nreturning to Main Menu \n\n");

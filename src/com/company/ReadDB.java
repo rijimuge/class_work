@@ -11,7 +11,8 @@ public class ReadDB {
 
   public static void initializeRead() throws IOException {
     String config = OpenDB.getConfigFile().readLine();
-    NUM_RECORDS = Integer.parseInt(config.substring(0, 10).trim());
+    NUM_RECORDS = Integer.parseInt(config.substring(0, 9).trim());
+    OpenDB.INSTANCE.overflowCount = Integer.parseInt(config.substring(9,10));
 
     fieldNames[0] = config.substring(10, 22).trim();
     fieldNames[1] = config.substring(22, 34).trim();
@@ -21,7 +22,7 @@ public class ReadDB {
     fieldNames[5] = config.substring(70, 82).trim();
   }
   public static void displayRecord() throws IOException {
-    System.out.println("Please enter a rank (primary key) to search for:");
+    System.out.println("Please enter a name (primary key) to search for:");
     String id = getID();
     String record = binarySearch(OpenDB.getDataFile(), id);
     if (record.equals("NOT_FOUND")) {
@@ -114,16 +115,15 @@ public class ReadDB {
     int Low = 0;
     int High = NUM_RECORDS - 1;
     int Middle;
-    Integer MiddleId;
-    Integer intid = Integer.parseInt(id);
+    String MiddleId;
     String record = "NOT_FOUND";
     boolean Found = false;
 
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
       record = getRecord(Din, Middle);
-      MiddleId = Integer.parseInt(record.substring(0, 7).trim());
-      int result = MiddleId.compareTo(intid);
+      MiddleId = record.substring(7, 52).trim();
+      int result = MiddleId.compareTo(id);
       if (result == 0)   // ids match
         Found = true;
       else if (result < 0)

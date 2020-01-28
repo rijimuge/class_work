@@ -112,5 +112,8 @@ public class SimpleDB {
     while (!toQuit) {
       simpleMenu();
     }
+    if (OpenDB.getDataBaseOpenStatus()) {
+      OpenDB.closeDB();
+    }
   }
 }
