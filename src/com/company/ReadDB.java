@@ -73,6 +73,7 @@ public class ReadDB {
       report.writeBytes(toDisplay.toString());
     }
     report.close();
+    System.out.println("Report created.\n");
   }
   /**
   public static void main(String[] args) throws IOException {
@@ -161,7 +162,7 @@ public class ReadDB {
 
   public static String getID() {
     Scanner in = new Scanner(System.in);
-    return in.next();
+    return in.nextLine();
   }
 
 

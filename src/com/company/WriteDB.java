@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class WriteDB {
  public static void updateRecord() throws IOException {
-   System.out.println("Please enter a rank (primary key) to search for:");
+   System.out.println("Please enter a name (primary key) to search for:");
    String id = ReadDB.getID();
    String record = ReadDB.binarySearch(OpenDB.getDataFile(), id);
    if (record.equals("NOT_FOUND")) {
@@ -30,11 +30,11 @@ public class WriteDB {
      toDisplay.append(" ");
    }
    System.out.println(toDisplay);
-   System.out.println("Please enter the (case sensitive) name of a field to update\nRank cannot be updated");
+   System.out.println("Please enter the (case sensitive) name of a field to update\nName (primary key) cannot be updated");
    Scanner fieldToUpdate = new Scanner(System.in);
    String toUpdate = fieldToUpdate.nextLine();
    switch (toUpdate) {
-     case "NAME":
+     case "RANK":
        System.out.println("Please enter a new value for the field (will be truncated to fit the field size):");
        fields[1] = String.format("%-" + 45 + "s", fieldToUpdate.nextLine()).substring(0, 45);
        break;
@@ -141,6 +141,9 @@ public class WriteDB {
       if (result == 0) {  // ids match
         Found = true;
         writeRecord(Din, Middle, updatedRecord);
+        if (updatedRecord.substring(0,3).equals("DEL")) {
+          ReadDB.NUM_RECORDS--;
+        }
         return;
       }
       else if (result < 0) {
@@ -157,10 +160,13 @@ public class WriteDB {
       for (long i = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
         overflow.seek(i * 76);
         overflow.read(checkOverflow);
-        overflowID = (new String(checkOverflow).substring(0, 7).trim());
+        overflowID = (new String(checkOverflow).substring(7, 52).trim());
         if (overflowID.equals(id)) {
           Found = true;
           writeRecord(overflow, (int) i, updatedRecord);
+          if (updatedRecord.substring(0,3).equals("DEL")) {
+            OpenDB.INSTANCE.overflowCount--;
+          }
         }
       }
       if (!Found) {
@@ -170,10 +176,9 @@ public class WriteDB {
   }
 
   public static void deleteRecord() throws IOException {
-    System.out.println("Please enter a rank (primary key) to delete:");
+    System.out.println("Please enter a name (primary key) to delete:");
     String id = ReadDB.getID();
     binarySearchToWrite(OpenDB.getDataFile(), id, String.format("%-" + 76 + "s", "DEL"));
-    ReadDB.NUM_RECORDS--;
   }
 
   public static void addRecord() throws IOException {
@@ -203,8 +208,22 @@ public class WriteDB {
     File newData = new File("merge.tmp");
     RandomAccessFile mergeFile = new RandomAccessFile("merge.tmp", "rw");
     int count = 0;
+    int result;
     while (count < ReadDB.NUM_RECORDS + 5) {
-      if (Integer.parseInt(nextOverflow.substring(0, 7).trim()) < Integer.parseInt(nextFromData.substring(0, 7).trim())) {
+      if (nextOverflow.equals("EMPTY")) {
+        mergeFile.writeBytes(nextFromData);
+        nextFromData = getNextFromData(false);
+        count++;
+        continue;
+      }
+      if (nextFromData.equals("EMPTY")) {
+        mergeFile.writeBytes(nextOverflow);
+        nextOverflow = getSmallestFromOverflow();
+        count++;
+        continue;
+      }
+      result = nextOverflow.substring(7, 52).trim().compareTo(nextFromData.substring(7, 52).trim());
+      if (result < 0 ) {
         mergeFile.writeBytes(nextOverflow);
         nextOverflow = getSmallestFromOverflow();
       } else {
@@ -216,7 +235,8 @@ public class WriteDB {
     ReadDB.NUM_RECORDS+=5;
     RandomAccessFile updateConfig = OpenDB.getConfigFile();
     updateConfig.seek(0);
-    updateConfig.writeBytes(String.format("%-" + 10 + "d", ReadDB.NUM_RECORDS));
+    updateConfig.writeBytes(String.format("%-" + 9 + "d", ReadDB.NUM_RECORDS));
+    updateConfig.writeBytes("0");
     RandomAccessFile overflowToClose = OpenDB.getOverflowFile();
     RandomAccessFile dataToClose = OpenDB.getDataFile();
     overflowToClose.close();
@@ -237,7 +257,7 @@ public class WriteDB {
   private static String getNextFromData(boolean started) throws IOException {
     byte[] recordRead = new byte[ReadDB.RECORD_SIZE];
     if (OpenDB.getDataFile().getFilePointer() == OpenDB.getDataFile().length()) {
-      return "999999999";
+      return "EMPTY";
     }
     if (started) {
       OpenDB.getDataFile().seek(0);
@@ -251,29 +271,37 @@ public class WriteDB {
 
   private static String getSmallestFromOverflow() throws IOException {
     if (OpenDB.INSTANCE.overflowCount == 0) {
-      return "999999999";
+      return "EMPTY";
     }
     int smallestIndex = 0;
-    while (ReadDB.getRecord(OpenDB.getOverflowFile(), smallestIndex).substring(0,3).equals("DEL")) {
+    byte[] checkNextOverflowRecord = new byte[76];
+    String nextOverflowRecord;
+    OpenDB.getOverflowFile().seek(0);
+    OpenDB.getOverflowFile().read(checkNextOverflowRecord);
+    nextOverflowRecord = new String(checkNextOverflowRecord);
+    while (nextOverflowRecord.substring(0,3).equals("DEL")) {
       smallestIndex++;
+      OpenDB.getOverflowFile().seek(smallestIndex * 76);
+      OpenDB.getOverflowFile().read(checkNextOverflowRecord);
+      nextOverflowRecord = new String(checkNextOverflowRecord);
     }
-    int smallestKey = Integer.parseInt(ReadDB.getRecord(OpenDB.getOverflowFile(), smallestIndex).substring(0,7).trim());
+    OpenDB.getOverflowFile().seek(smallestIndex * 76);
+    OpenDB.getOverflowFile().read(checkNextOverflowRecord);
+    String smallestRecord = new String(checkNextOverflowRecord);
     for (int i = smallestIndex + 1; i < OpenDB.getOverflowFile().length() / 76; i++) {
-      if (ReadDB.getRecord(OpenDB.getOverflowFile(), i).substring(0,3).equals("DEL")) {
-        i++;
+      OpenDB.getOverflowFile().seek(i * 76);
+      OpenDB.getOverflowFile().read(checkNextOverflowRecord);
+      nextOverflowRecord = new String(checkNextOverflowRecord);
+      if (nextOverflowRecord.substring(0,3).equals("DEL")) {
         continue;
       }
-      if (i >= OpenDB.getOverflowFile().length() / 76) {
-        break;
-      }
-      if (Integer.parseInt(ReadDB.getRecord(OpenDB.getOverflowFile(), i).substring(0,7).trim()) < smallestKey) {
+      if (nextOverflowRecord.substring(7, 52).compareTo(smallestRecord.substring(7, 52)) < 0) {
         smallestIndex = i;
-        smallestKey = Integer.parseInt(ReadDB.getRecord(OpenDB.getOverflowFile(), i).substring(0,7).trim());
+        smallestRecord = nextOverflowRecord;
       }
     }
-    String toReturn = ReadDB.getRecord(OpenDB.getOverflowFile(), smallestIndex);
     writeRecord(OpenDB.getOverflowFile(), smallestIndex, String.format("%-" + 76 + "s", "DEL"));
     OpenDB.INSTANCE.overflowCount--;
-    return toReturn;
+    return smallestRecord;
   }
 }
