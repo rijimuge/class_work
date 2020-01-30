@@ -3,7 +3,6 @@ package com.company;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Random;
 import java.util.Scanner;
 
 public class WriteDB {
@@ -192,6 +191,9 @@ public class WriteDB {
       pieceOfRecord = fieldInput.nextLine();
       fieldSize = Integer.parseInt(ReadDB.fieldNames[i].substring(10));
       newRecord.append(String.format("%-" + fieldSize + "s", pieceOfRecord).substring(0, fieldSize));
+    }
+    if (!ReadDB.binarySearch(OpenDB.getDataFile(), newRecord.substring(7,52).trim()).equals("NOT_FOUND")) {
+      return;
     }
     OpenDB.getOverflowFile().seek(OpenDB.getOverflowFile().length());
     OpenDB.getOverflowFile().writeBytes(newRecord.toString());

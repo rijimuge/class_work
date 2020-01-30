@@ -141,17 +141,10 @@ public class ReadDB {
       String overflowID;
       if (overflow.length() > 1) {
         for (long i = 0; i < OpenDB.getOverflowFile().length() / 76; i++) {
-          System.out.println("checking overflow");
           overflow.seek(i * 76);
-          System.out.println("Seeking");
           overflow.read(checkOverflow);
-          System.out.println("Reading");
-          System.out.println(checkOverflow.toString());
           overflowID = new String(checkOverflow).substring(7, 52).trim();
-          System.out.println(overflowID);
-          System.out.println(id);
-          if (overflowID == id) {
-            System.out.println("They match");
+          if (overflowID.equals(id)) {
             return new String(checkOverflow);
           }
         }
