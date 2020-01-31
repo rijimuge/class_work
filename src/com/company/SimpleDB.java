@@ -87,8 +87,13 @@ public class SimpleDB {
     QUIT {
       @Override
       public void apply() {
+        if (OpenDB.getDataBaseOpenStatus()) {
+          System.out.println("A database is currently open, please close the database before quiting.\n Returning to main menu.\n");
+        } else {
+        System.out.println("Quitting database management system.");
         toQuit = true;
       }
+    }
     };
     public abstract void apply() throws IOException;
   }
