@@ -49,12 +49,17 @@ public class ReadDB {
 
   public static void createReport() throws IOException {
     int count = 0;
-    int offset = 0;
     RandomAccessFile report = new RandomAccessFile(OpenDB.INSTANCE.filePrefix + ".report", "rw");
+    byte[] recordRead = new byte[ReadDB.RECORD_SIZE];
+    OpenDB.getDataFile().seek(0);
+    OpenDB.getDataFile().read(recordRead);
+    String record = new String(recordRead);
     while (count < 10) {
-      String record = getRecord(OpenDB.getDataFile(), offset);
+      while (record.substring(0,3).equals("DEL")) {
+        OpenDB.getDataFile().read(recordRead);
+        record = new String(recordRead);
+      }
       count++;
-      offset++;
       String[] fields = new String[6];
       fields[0] = record.substring(0,7);
       fields[1] = record.substring(7,52);
@@ -71,6 +76,8 @@ public class ReadDB {
       }
       toDisplay.append("\n");
       report.writeBytes(toDisplay.toString());
+      OpenDB.getDataFile().read(recordRead);
+      record = new String(recordRead);
     }
     report.close();
     System.out.println("Report created.\n");

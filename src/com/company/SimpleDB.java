@@ -26,7 +26,7 @@ public class SimpleDB {
     CLOSE_DATABASE {
       @Override
       public void apply() throws IOException {
-        if (OpenDB.getDataBaseOpenStatus()) {
+        if (!OpenDB.getDataBaseOpenStatus()) {
           System.out.println("No database currently open, returning to main menu:\n\n");
         } else {
           OpenDB.closeDB();

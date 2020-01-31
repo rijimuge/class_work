@@ -102,25 +102,9 @@ public class WriteDB {
   //public static String getRecord(RandomAccessFile Din, int recordNum) throws IOException
 
   public static void writeRecord(RandomAccessFile Din, int recordNum, String updatedRecord) throws IOException {
-    int seekNum = recordNum;
-    byte[] recordInBytes = new byte[ReadDB.RECORD_SIZE];
-    if ((recordNum >= 0) && (recordNum <= ReadDB.NUM_RECORDS)) {
       Din.seek(0); // return to the top of the file
       Din.skipBytes(recordNum * ReadDB.RECORD_SIZE);
-      Din.read(recordInBytes);
-    }
-    String toReturn = new String(recordInBytes);
-    while (toReturn.substring(0,3).equals("DEL")) {
-      seekNum++;
-      Din.read(recordInBytes);
-      toReturn = new String(recordInBytes);
-    }
-
-    if ((recordNum >= 0) && (recordNum <= ReadDB.NUM_RECORDS)) {
-      Din.seek(0); // return to the top of the file
-      Din.skipBytes(seekNum * ReadDB.RECORD_SIZE);
       Din.writeBytes(updatedRecord);
-    }
   }
 
   /*Binary Search record id */
@@ -135,12 +119,15 @@ public class WriteDB {
     while (!Found && (High >= Low)) {
       Middle = (Low + High) / 2;
       record = ReadDB.getRecord(Din, Middle);
-      MiddleId = record.substring(0, 7).trim();
+      MiddleId = record.substring(7, 52).trim();
       int result = MiddleId.compareTo(id);
       if (result == 0) {  // ids match
         Found = true;
         writeRecord(Din, Middle, updatedRecord);
+
+
         if (updatedRecord.substring(0,3).equals("DEL")) {
+          System.out.println("Record Deleted");
           ReadDB.NUM_RECORDS--;
         }
         return;
@@ -164,6 +151,7 @@ public class WriteDB {
           Found = true;
           writeRecord(overflow, (int) i, updatedRecord);
           if (updatedRecord.substring(0,3).equals("DEL")) {
+            System.out.println("overflow Record Deleted");
             OpenDB.INSTANCE.overflowCount--;
           }
         }
@@ -177,6 +165,9 @@ public class WriteDB {
   public static void deleteRecord() throws IOException {
     System.out.println("Please enter a name (primary key) to delete:");
     String id = ReadDB.getID();
+    if (id.equals("001")) {
+      System.out.println("equal");
+    }
     binarySearchToWrite(OpenDB.getDataFile(), id, String.format("%-" + 76 + "s", "DEL"));
   }
 
@@ -193,8 +184,10 @@ public class WriteDB {
       newRecord.append(String.format("%-" + fieldSize + "s", pieceOfRecord).substring(0, fieldSize));
     }
     if (!ReadDB.binarySearch(OpenDB.getDataFile(), newRecord.substring(7,52).trim()).equals("NOT_FOUND")) {
+      System.out.println("Record with this primary key already exists.\n");
       return;
     }
+    System.out.println("Record added\n");
     OpenDB.getOverflowFile().seek(OpenDB.getOverflowFile().length());
     OpenDB.getOverflowFile().writeBytes(newRecord.toString());
     OpenDB.INSTANCE.overflowCount++;
@@ -267,7 +260,15 @@ public class WriteDB {
       return new String(recordRead);
     } else {
       OpenDB.getDataFile().read(recordRead);
-      return new String(recordRead);
+      String toReturn = new String(recordRead);
+      while (toReturn.substring(0,3).equals("DEL")) {
+        if (OpenDB.getDataFile().getFilePointer() == OpenDB.getDataFile().length()) {
+          return "EMPTY";
+        }
+        OpenDB.getDataFile().read(recordRead);
+        toReturn = new String(recordRead);
+      }
+      return toReturn;
     }
   }
 
